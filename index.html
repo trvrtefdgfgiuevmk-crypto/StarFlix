@@ -6,9 +6,7 @@
   <title>StarFlix</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
-    :root {
-      --netflix-red: #e50914;
-    }
+    :root { --red: #e50914; }
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -17,57 +15,55 @@
       overflow-x: hidden;
     }
 
-    /* Menu Lateral */
+    /* Sidebar */
     .sidebar {
       position: fixed;
-      left: 0;
-      top: 0;
-      height: 100%;
+      left: 0; top: 0; bottom: 0;
       width: 240px;
       background: #000;
-      padding: 20px 0;
       z-index: 2000;
+      padding-top: 20px;
     }
     .logo {
-      font-size: 2.2rem;
+      font-size: 2.4rem;
       font-weight: bold;
-      color: var(--netflix-red);
-      padding: 0 20px 30px;
+      color: var(--red);
+      padding: 0 25px 40px;
     }
     .menu-item {
-      padding: 12px 25px;
+      padding: 14px 25px;
       display: flex;
       align-items: center;
       gap: 15px;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       cursor: pointer;
-      transition: 0.3s;
+      transition: 0.2s;
     }
     .menu-item:hover { background: #333; }
 
-    /* Header */
+    /* Top Bar */
     header {
       position: fixed;
       top: 0;
       left: 240px;
       right: 0;
-      height: 70px;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+      height: 68px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
       display: flex;
       align-items: center;
       padding: 0 40px;
       z-index: 1500;
     }
     .search-bar {
-      background: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.15);
       border: none;
       padding: 10px 20px;
-      width: 380px;
-      border-radius: 4px;
+      width: 420px;
+      border-radius: 6px;
       color: white;
+      font-size: 1rem;
     }
 
-    /* Hero */
     .hero {
       height: 95vh;
       background-size: cover;
@@ -77,59 +73,54 @@
       padding: 0 60px;
       position: relative;
     }
-    .hero-content { max-width: 600px; z-index: 2; }
-    .hero h1 { font-size: 4.5rem; margin-bottom: 15px; }
-    .hero p { font-size: 1.3rem; margin-bottom: 25px; }
+    .hero-content { max-width: 620px; }
+    .hero h1 { font-size: 4.8rem; margin-bottom: 20px; text-shadow: 2px 2px 8px rgba(0,0,0,0.9); }
 
-    /* Rows */
     .row {
-      padding: 20px 60px;
-      margin-top: -80px;
+      padding: 30px 60px;
+      margin-top: -90px;
       position: relative;
     }
-    .row h2 { margin-bottom: 15px; font-size: 1.6rem; }
+    .row h2 { margin-bottom: 18px; font-size: 1.7rem; }
     .carousel {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       overflow-x: auto;
-      scroll-behavior: smooth;
       padding: 10px 0;
     }
     .card {
-      min-width: 240px;
-      border-radius: 8px;
+      min-width: 230px;
+      border-radius: 10px;
       overflow: hidden;
       transition: all 0.4s;
       cursor: pointer;
     }
-    .card:hover {
-      transform: scale(1.18);
-      z-index: 10;
-    }
+    .card:hover { transform: scale(1.22); z-index: 10; }
     .card img { width: 100%; display: block; }
 
-    /* Modal */
     .modal {
       display: none;
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      inset: 0;
       background: rgba(0,0,0,0.95);
       z-index: 3000;
       align-items: center;
       justify-content: center;
     }
     .modal-content {
-      width: 80%;
-      max-width: 900px;
-      background: #1f1f1f;
+      width: 85%;
+      max-width: 950px;
+      background: #1a1a1a;
       border-radius: 12px;
       overflow: hidden;
     }
+
+    .loading { text-align: center; padding: 50px; font-size: 1.4rem; }
   </style>
 </head>
 <body>
 
-  <!-- Menu Lateral -->
+  <!-- Sidebar -->
   <div class="sidebar">
     <div class="logo">STARFLIX</div>
     <div class="menu-item"><i class="fas fa-home"></i> Início</div>
@@ -146,74 +137,60 @@
   <!-- Hero -->
   <section class="hero" id="hero">
     <div class="hero-content">
-      <h1 id="hero-title">Carregando...</h1>
-      <p id="hero-overview"></p>
-      <button style="background:#fff; color:#000; padding:12px 35px; font-size:1.1rem; border:none; border-radius:4px; cursor:pointer;">
-        ▶ Assistir
-      </button>
+      <h1 id="hero-title">StarFlix</h1>
+      <p id="hero-overview">Carregando conteúdo...</p>
     </div>
   </section>
 
-  <section class="row">
-    <h2>Em Alta</h2>
-    <div class="carousel" id="trending"></div>
-  </section>
-
-  <section class="row">
-    <h2>Populares</h2>
-    <div class="carousel" id="popular"></div>
-  </section>
-
-  <section class="row">
-    <h2>Ação</h2>
-    <div class="carousel" id="action"></div>
-  </section>
-
-  <section class="row">
-    <h2>Drama</h2>
-    <div class="carousel" id="drama"></div>
-  </section>
+  <div id="content">
+    <!-- As fileiras serão inseridas aqui via JS -->
+  </div>
 
   <!-- Modal -->
   <div class="modal" id="modal">
     <div class="modal-content">
-      <button onclick="closeModal()" style="position:absolute; top:15px; right:20px; font-size:2rem; background:none; border:none; color:white; cursor:pointer;">×</button>
-      <img id="modal-backdrop" style="width:100%; height:420px; object-fit:cover;">
-      <div style="padding:25px;">
-        <h1 id="modal-title" style="font-size:2.5rem;"></h1>
-        <p id="modal-overview"></p>
+      <button onclick="closeModal()" style="position:absolute;top:20px;right:25px;font-size:2.5rem;background:none;border:none;color:white;cursor:pointer;">×</button>
+      <img id="modal-img" style="width:100%; height:460px; object-fit:cover;">
+      <div style="padding:30px;">
+        <h1 id="modal-title" style="font-size:2.8rem;margin-bottom:15px;"></h1>
+        <p id="modal-desc" style="font-size:1.1rem;line-height:1.5;"></p>
       </div>
     </div>
   </div>
 
   <script>
-    const API_BASE = "https://imdb.iamidiotareyoutoo.com";
+    // Dados de fallback (caso a API falhe)
+    const fallbackMovies = [
+      {title: "Duna: Parte Dois", img: "https://image.tmdb.org/t/p/w500/1XDDXPXGiSTpZ1n4Z8fQ8vJ2w8M.jpg", desc: "Paul Atreides une forças com Chani e os Fremen."},
+      {title: "Deadpool & Wolverine", img: "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMUBjM.jpg", desc: "O mercenário boca suja e o Wolverine juntos."},
+      {title: "Furiosa", img: "https://image.tmdb.org/t/p/w500/iXU8XhVqY5zq6X7fJq4K8z8z8z8.jpg", desc: "A origem da guerreira Furiosa."},
+      {title: "Oppenheimer", img: "https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2d.jpg", desc: "A história do pai da bomba atômica."},
+      {title: "The Batman", img: "https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg", desc: "O Cavaleiro das Trevas retorna."}
+    ];
 
-    async function fetchMovies(query = "popular") {
+    async function fetchWithTimeout(url, timeout = 8000) {
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), timeout);
       try {
-        const res = await fetch(`${API_BASE}/search?query=${query}`);
-        const data = await res.json();
-        return data.results || data;
-      } catch(e) {
-        console.error("Erro na API", e);
-        return [];
+        const res = await fetch(url, {signal: controller.signal});
+        return res.ok ? await res.json() : null;
+      } catch {
+        return null;
       }
     }
 
     function createCard(movie) {
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <img src="${movie.image || 'https://via.placeholder.com/240x360?text=Sem+Imagem'}" alt="${movie.title}">
-      `;
-      card.onclick = () => showModal(movie);
-      return card;
+      const div = document.createElement('div');
+      div.className = 'card';
+      div.innerHTML = `<img src="${movie.img || movie.image}" alt="${movie.title}">`;
+      div.onclick = () => showModal(movie);
+      return div;
     }
 
     function showModal(movie) {
-      document.getElementById('modal-backdrop').src = movie.image || '';
-      document.getElementById('modal-title').textContent = movie.title || 'Sem título';
-      document.getElementById('modal-overview').textContent = movie.description || 'Sem descrição disponível.';
+      document.getElementById('modal-img').src = movie.img || movie.image || 'https://via.placeholder.com/900x460';
+      document.getElementById('modal-title').textContent = movie.title;
+      document.getElementById('modal-desc').textContent = movie.desc || movie.description || "Sem descrição disponível.";
       document.getElementById('modal').style.display = 'flex';
     }
 
@@ -221,46 +198,60 @@
       document.getElementById('modal').style.display = 'none';
     }
 
-    async function loadContent() {
-      // Hero
-      const trending = await fetchMovies("trending");
-      if (trending.length > 0) {
-        const hero = trending[0];
-        document.getElementById('hero').style.backgroundImage = `url(${hero.image})`;
-        document.getElementById('hero-title').textContent = hero.title;
-        document.getElementById('hero-overview').textContent = (hero.description || '').substring(0, 180) + '...';
+    async function loadRows() {
+      const content = document.getElementById('content');
+      content.innerHTML = '<div class="loading">Carregando conteúdo...</div>';
+
+      let movies = [];
+
+      // Tenta pegar da API
+      try {
+        const data = await fetchWithTimeout('https://imdb.iamidiotareyoutoo.com/search?query=popular');
+        if (data && data.results) movies = data.results;
+      } catch(e) {}
+
+      // Se falhar, usa fallback
+      if (movies.length === 0) {
+        movies = fallbackMovies;
       }
 
-      // Fileiras
-      const categories = [
-        {id: 'trending', query: 'trending'},
-        {id: 'popular', query: 'popular'},
-        {id: 'action', query: 'action'},
-        {id: 'drama', query: 'drama'}
-      ];
+      const categories = ["Em Alta", "Populares", "Ação", "Drama", "Recomendados para Você"];
 
-      for (let cat of categories) {
-        const movies = await fetchMovies(cat.query);
-        const container = document.getElementById(cat.id);
-        container.innerHTML = '';
-        movies.slice(0, 12).forEach(movie => {
-          container.appendChild(createCard(movie));
+      let html = '';
+      categories.forEach(title => {
+        html += `
+          <section class="row">
+            <h2>${title}</h2>
+            <div class="carousel" id="${title}"></div>
+          </section>`;
+      });
+      content.innerHTML = html;
+
+      // Preenche as fileiras
+      categories.forEach(title => {
+        const container = document.getElementById(title);
+        movies.forEach(m => {
+          container.appendChild(createCard(m));
         });
-      }
+      });
+
+      // Hero com primeiro filme
+      const hero = movies[0];
+      document.getElementById('hero').style.backgroundImage = `url(${hero.img || hero.image})`;
+      document.getElementById('hero-title').textContent = hero.title;
+      document.getElementById('hero-overview').textContent = hero.desc || hero.description || '';
     }
 
-    // Busca em tempo real
-    document.getElementById('searchInput').addEventListener('input', async (e) => {
-      const term = e.target.value.trim();
-      if (term.length < 2) return;
-      
-      const results = await fetchMovies(term);
-      // Você pode criar uma seção de resultados ou usar um modal, mas por enquanto só log
-      console.log("Resultados da busca:", results);
+    // Busca
+    document.getElementById('searchInput').addEventListener('keypress', async (e) => {
+      if (e.key === 'Enter') {
+        const term = e.target.value.trim();
+        if (term) alert(`Buscando por: ${term} (funcionalidade em desenvolvimento)`);
+      }
     });
 
-    // Iniciar
-    loadContent();
+    // Inicia
+    loadRows();
   </script>
 </body>
 </html>
